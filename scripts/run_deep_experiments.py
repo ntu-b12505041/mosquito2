@@ -34,6 +34,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--models", nargs="*", default=None)
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--batch-size", type=int, default=None)
+    parser.add_argument("--device", default="auto", choices=["auto", "cpu", "cuda"])
     parser.add_argument("--no-download", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
@@ -95,7 +96,12 @@ def main() -> None:
     labels_summary(records).to_csv(out_dir / "label_summary.csv", index=False)
     x = apply_lead_mode(x, lead_mode)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if args.device == "cuda" and not torch.cuda.is_available():
+        raise SystemExit("CUDA was requested, but torch.cuda.is_available() is false.")
+    if args.device == "cpu":
+        device = torch.device("cpu")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     rows: list[dict[str, object]] = []
 
     for recipe in recipes:
@@ -200,7 +206,7 @@ def main() -> None:
             row.update(evaluate_binary(y_test, test_scores, threshold, prefix="test"))
             rows.append(row)
 
-            model_path = out_dir / f"{model_name}_{recipe}.pt"
+            model_path = out_dir / f"{lead_mode}_{model_name}_{recipe}.pt"
             torch.save({"model_state_dict": model.state_dict(), "history": history, "row": row}, model_path)
             print(
                 f"{model_name} / {recipe}: "
