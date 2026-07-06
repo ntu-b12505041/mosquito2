@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -139,7 +140,9 @@ def main() -> None:
             best_state = None
             bad_epochs = 0
             history = []
+            training_start = time.perf_counter()
             for epoch in range(1, epochs + 1):
+                epoch_start = time.perf_counter()
                 model.train()
                 losses = []
                 for xb, yb in train_loader:
@@ -154,7 +157,14 @@ def main() -> None:
                 val_scores = predict(torch, model, val_loader, device)
                 threshold = choose_threshold_by_youden(y_val, val_scores)
                 val_metrics = evaluate_binary(y_val, val_scores, threshold)
-                history.append({"epoch": epoch, "loss": float(np.mean(losses)), **val_metrics})
+                history.append(
+                    {
+                        "epoch": epoch,
+                        "loss": float(np.mean(losses)),
+                        "epoch_time_seconds": round(time.perf_counter() - epoch_start, 3),
+                        **val_metrics,
+                    }
+                )
                 val_auc = val_metrics["auroc"]
                 print(f"{model_name}/{recipe} epoch={epoch} loss={np.mean(losses):.4f} val_auc={val_auc:.4f}")
                 if val_auc > best_auc:
@@ -172,7 +182,14 @@ def main() -> None:
             threshold = choose_threshold_by_youden(y_val, val_scores)
             train_scores = predict(torch, model, full_train_loader, device)
             test_scores = predict(torch, model, test_loader, device)
-            row.update({"status": "ok", "threshold_source": "validation_youden", "epochs_run": len(history)})
+            row.update(
+                {
+                    "status": "ok",
+                    "threshold_source": "validation_youden",
+                    "epochs_run": len(history),
+                    "training_time_seconds": round(time.perf_counter() - training_start, 3),
+                }
+            )
             row.update(evaluate_binary(y_train, train_scores, threshold, prefix="train"))
             row.update(evaluate_binary(y_val, val_scores, threshold, prefix="val"))
             row.update(evaluate_binary(y_test, test_scores, threshold, prefix="test"))

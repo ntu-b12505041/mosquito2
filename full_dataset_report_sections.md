@@ -171,7 +171,7 @@ Full planned experiment matrix:
 
 ## 6. 模型設定總表
 
-Colab full run 完成後，`training_time`, `epochs_run`, validation/test metrics 可以直接從 `reports/metrics_deep.csv` 和 `reports/metrics_classical.csv` 補上。下面先列出目前固定的 formal training configuration。
+Colab full run 完成後，`training_time_seconds`, `epochs_run`, validation/test metrics 可以直接從 `reports/metrics_deep.csv` 和 `reports/metrics_classical.csv` 補上。下面先列出目前固定的 formal training configuration。
 
 | Framework | Model | model_name | Lead | Sampling rate | Input shape | Epochs | Learning rate | Weight decay | Batch size | Parameters / capacity | Training time |
 |---|---|---|---|---:|---|---:|---:|---:|---:|---:|---|

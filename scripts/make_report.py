@@ -37,6 +37,9 @@ def metrics_table(df: pd.DataFrame) -> str:
     cols = [
         "family",
         "model",
+        "training_time_seconds",
+        "epochs_run",
+        "device",
         "lead_mode",
         "preprocess",
         "test_auroc",

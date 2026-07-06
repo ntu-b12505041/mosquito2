@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -82,7 +83,9 @@ def main() -> None:
                 continue
 
             model = make_classical_model(model_name, seed=seed)
+            training_start = time.perf_counter()
             model.fit(features[masks["train"]], y_train)
+            row["training_time_seconds"] = round(time.perf_counter() - training_start, 3)
             val_scores = predict_scores(model, features[masks["val"]])
             threshold = choose_threshold_by_youden(y_val, val_scores)
             train_scores = predict_scores(model, features[masks["train"]])
