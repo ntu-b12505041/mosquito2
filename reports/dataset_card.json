@@ -1,0 +1,108 @@
+{
+  "n_records": 20,
+  "n_patients": 20,
+  "mi_positive": 10,
+  "mi_negative": 10,
+  "fold_counts": [
+    {
+      "strat_fold": 1,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 1,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 2,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 2,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 3,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 3,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 4,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 4,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 5,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 5,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 6,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 6,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 7,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 7,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 8,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 8,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 9,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 9,
+      "target_mi": 1,
+      "n": 1
+    },
+    {
+      "strat_fold": 10,
+      "target_mi": 0,
+      "n": 1
+    },
+    {
+      "strat_fold": 10,
+      "target_mi": 1,
+      "n": 1
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# Data and generated heavy artifacts
+data/
+*.pt
+*.pth
+*.ckpt
+*.h5
+*.onnx
+*.npz
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local/editor
+.ipynb_checkpoints/
+.env
+.DS_Store
+Thumbs.db

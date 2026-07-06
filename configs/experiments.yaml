@@ -1,0 +1,47 @@
+project: mi_ptbxl_binary_mi
+seed: 42
+
+data:
+  source: ptb-xl
+  physionet_base_url: https://physionet.org/files/ptb-xl/1.0.3
+  data_dir: data/ptbxl
+  sampling_rate: 100
+  lead_mode: all12
+  target: diagnostic_class_mi
+  train_folds: [1, 2, 3, 4, 5, 6, 7, 8]
+  val_folds: [9]
+  test_folds: [10]
+  max_records: null
+
+preprocessing:
+  - raw_zscore
+  - bandpass_0.5_40_zscore
+  - bandpass_0.5_40_zscore_downsample50
+
+classical_models:
+  - logistic_regression
+  - random_forest
+  - hist_gradient_boosting
+
+deep_models:
+  - resnet1d
+  - inception1d
+  - spectrogram2d
+
+training:
+  batch_size: 128
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 5
+  num_workers: 2
+
+metrics:
+  primary: test_auroc
+  report:
+    - auroc
+    - average_precision
+    - balanced_accuracy
+    - f1
+    - sensitivity
+    - specificity
