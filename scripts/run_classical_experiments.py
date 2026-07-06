@@ -66,6 +66,7 @@ def main() -> None:
         x_processed, fs = apply_preprocessing(x, recipe, sampling_rate)
         features = extract_global_features(x_processed, fs)
         for model_name in model_names:
+            print(f"Starting {model_name} / {recipe} / {lead_mode} on {len(y[masks['train']])} training records")
             row: dict[str, object] = {
                 "family": "classical",
                 "model": model_name,
@@ -98,6 +99,7 @@ def main() -> None:
             rows.append(row)
             print(
                 f"{model_name} / {recipe}: "
+                f"train_time={row['training_time_seconds']:.3f}s "
                 f"val_auc={row['val_auroc']:.4f} test_auc={row['test_auroc']:.4f} "
                 f"test_ap={row['test_average_precision']:.4f}"
             )

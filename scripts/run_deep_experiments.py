@@ -101,6 +101,7 @@ def main() -> None:
     for recipe in recipes:
         x_processed, fs = apply_preprocessing(x, recipe, sampling_rate)
         for model_name in model_names:
+            print(f"Starting {model_name} / {recipe} / {lead_mode} on device={device}")
             row: dict[str, object] = {
                 "family": "deep",
                 "model": model_name,
@@ -166,7 +167,11 @@ def main() -> None:
                     }
                 )
                 val_auc = val_metrics["auroc"]
-                print(f"{model_name}/{recipe} epoch={epoch} loss={np.mean(losses):.4f} val_auc={val_auc:.4f}")
+                print(
+                    f"{model_name}/{recipe} epoch={epoch} "
+                    f"epoch_time={history[-1]['epoch_time_seconds']:.3f}s "
+                    f"loss={np.mean(losses):.4f} val_auc={val_auc:.4f}"
+                )
                 if val_auc > best_auc:
                     best_auc = val_auc
                     best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
@@ -199,6 +204,7 @@ def main() -> None:
             torch.save({"model_state_dict": model.state_dict(), "history": history, "row": row}, model_path)
             print(
                 f"{model_name} / {recipe}: "
+                f"train_time={row['training_time_seconds']:.3f}s "
                 f"val_auc={row['val_auroc']:.4f} test_auc={row['test_auroc']:.4f} "
                 f"test_ap={row['test_average_precision']:.4f}"
             )
