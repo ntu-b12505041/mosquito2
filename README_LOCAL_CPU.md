@@ -22,6 +22,12 @@ The default one-click script runs full-dataset classical CPU experiments:
 
 Deep learning scripts are included, but they are not run by default because full deep training on CPU can take a very long time.
 
+For full deep-learning CPU runs split into one `.bat` per experiment, see:
+
+```text
+README_DEEP_CPU_RUNS.md
+```
+
 ## Optional CPU Deep-Learning Trial
 
 If you still want to test deep learning on local CPU, use:
