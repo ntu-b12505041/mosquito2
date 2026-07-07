@@ -6,6 +6,7 @@ data/
 *.h5
 *.onnx
 *.npz
+logs/
 
 # Python
 __pycache__/
