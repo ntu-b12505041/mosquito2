@@ -133,6 +133,11 @@ reports/metrics_classical.csv
 reports/metrics_classical.json
 reports/metrics_deep.csv
 reports/metrics_deep.json
+reports/all_model_results.csv
+reports/all_model_results.md
+reports/confusion_matrices.csv
+reports/confusion_matrices.md
+reports/confusion_matrices/*.png
 reports/*.pt
 report.md
 logs/full_gpu_YYYYMMDD_HHMMSS/

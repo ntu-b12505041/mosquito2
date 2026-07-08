@@ -150,6 +150,7 @@ bash RUN_FULL_GPU_EXPERIMENTS.sh
 ```
 
 This runner uses full PTB-XL `records100/` and does not pass `--max-records`.
+It also regenerates `report.md`, `reports/all_model_results.*`, and `reports/confusion_matrices.*`.
 See `README_GPU_SSH.md` for tmux/nohup usage, CUDA PyTorch install notes, and the complete experiment matrix.
 
 ## Colab
