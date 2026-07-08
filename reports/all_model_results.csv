@@ -1,0 +1,3 @@
+family,model,lead_mode,preprocess,sampling_rate,max_records,status,train_n,train_positives,val_n,val_positives,test_n,test_positives,val_threshold,test_auroc,test_average_precision,test_accuracy,test_balanced_accuracy,test_precision,test_recall,test_sensitivity,test_specificity,test_f1,test_tp,test_fp,test_tn,test_fn,val_auroc,val_average_precision,train_auroc,train_average_precision
+classical,logistic_regression,wearable3_vdiff,raw_zscore,100,20,ok,16.0,8.0,2.0,1.0,2.0,1.0,0.1851781749756004,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,0.0,1.0,1.0,1.0,1.0
+classical,logistic_regression,all12,raw_zscore,100,20,ok,16.0,8.0,2.0,1.0,2.0,1.0,0.4302668793822242,1.0,1.0,0.5,0.5,0.5,1.0,1.0,0.0,0.6666666666666666,1.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0

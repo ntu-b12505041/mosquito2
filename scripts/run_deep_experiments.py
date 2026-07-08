@@ -34,6 +34,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--models", nargs="*", default=None)
     parser.add_argument("--epochs", type=int, default=None)
     parser.add_argument("--batch-size", type=int, default=None)
+    parser.add_argument("--device", default="auto", choices=["auto", "cpu", "cuda"])
     parser.add_argument("--no-download", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
@@ -95,11 +96,18 @@ def main() -> None:
     labels_summary(records).to_csv(out_dir / "label_summary.csv", index=False)
     x = apply_lead_mode(x, lead_mode)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if args.device == "cuda" and not torch.cuda.is_available():
+        raise SystemExit("CUDA was requested, but torch.cuda.is_available() is false.")
+    if args.device == "cpu":
+        device = torch.device("cpu")
+    else:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     rows: list[dict[str, object]] = []
 
     for recipe in recipes:
+        preprocess_start = time.perf_counter()
         x_processed, fs = apply_preprocessing(x, recipe, sampling_rate)
+        preprocess_time_seconds = round(time.perf_counter() - preprocess_start, 3)
         for model_name in model_names:
             print(f"Starting {model_name} / {recipe} / {lead_mode} on device={device}")
             row: dict[str, object] = {
@@ -111,6 +119,7 @@ def main() -> None:
                 "max_records": max_records,
                 "device": str(device),
                 "epochs_requested": epochs,
+                "preprocess_time_seconds": preprocess_time_seconds,
             }
             y_train = y[masks["train"]]
             y_val = y[masks["val"]]
@@ -120,10 +129,13 @@ def main() -> None:
                 rows.append(row)
                 continue
 
+            transform_start = time.perf_counter()
             if model_name == "spectrogram2d":
+                print("Building STFT amplitude/phase tensor. This step can be slow on CPU.")
                 model_input = stft_multilead_tensor(x_processed, fs, max_freq=min(119.0, fs / 2.0))
             else:
                 model_input = x_processed
+            row["input_transform_time_seconds"] = round(time.perf_counter() - transform_start, 3)
 
             train_loader = make_loader(torch, model_input[masks["train"]], y_train, batch_size, shuffle=True)
             val_loader = make_loader(torch, model_input[masks["val"]], y_val, batch_size, shuffle=False)
@@ -131,6 +143,8 @@ def main() -> None:
             full_train_loader = make_loader(torch, model_input[masks["train"]], y_train, batch_size, shuffle=False)
 
             model = make_deep_model(model_name, in_channels=model_input.shape[1]).to(device)
+            row["parameters"] = int(sum(p.numel() for p in model.parameters()))
+            row["trainable_parameters"] = int(sum(p.numel() for p in model.parameters() if p.requires_grad))
             classes = np.array([0, 1])
             weights = compute_class_weight("balanced", classes=classes, y=y_train)
             pos_weight = torch.tensor(weights[1] / weights[0], dtype=torch.float32, device=device)
@@ -200,7 +214,7 @@ def main() -> None:
             row.update(evaluate_binary(y_test, test_scores, threshold, prefix="test"))
             rows.append(row)
 
-            model_path = out_dir / f"{model_name}_{recipe}.pt"
+            model_path = out_dir / f"{lead_mode}_{model_name}_{recipe}.pt"
             torch.save({"model_state_dict": model.state_dict(), "history": history, "row": row}, model_path)
             print(
                 f"{model_name} / {recipe}: "

@@ -1,0 +1,7 @@
+experiment_id,family,model,lead_mode,preprocess,sampling_rate,max_records,split,n,positives,threshold,tn,fp,fn,tp,sensitivity,specificity,precision,recall,f1,auroc,average_precision
+E001,classical,logistic_regression,wearable3_vdiff,raw_zscore,100,20,train,16.0,8.0,0.1851781749756004,8.0,0.0,0.0,8.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+E001,classical,logistic_regression,wearable3_vdiff,raw_zscore,100,20,val,2.0,1.0,0.1851781749756004,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+E001,classical,logistic_regression,wearable3_vdiff,raw_zscore,100,20,test,2.0,1.0,0.1851781749756004,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+E002,classical,logistic_regression,all12,raw_zscore,100,20,train,16.0,8.0,0.4302668793822242,8.0,0.0,0.0,8.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+E002,classical,logistic_regression,all12,raw_zscore,100,20,val,2.0,1.0,0.4302668793822242,1.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+E002,classical,logistic_regression,all12,raw_zscore,100,20,test,2.0,1.0,0.4302668793822242,0.0,1.0,0.0,1.0,1.0,0.0,0.5,1.0,0.6666666666666666,1.0,1.0

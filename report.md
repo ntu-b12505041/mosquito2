@@ -1,6 +1,6 @@
 # MI ECG Model Report
 
-Generated: 2026-07-06T11:19:05
+Generated: 2026-07-08T22:54:19
 
 ## Architecture Background
 
@@ -56,10 +56,27 @@ Used files:
 
 Best completed run: `logistic_regression` with `raw_zscore` (test AUROC=1.0000, test AUPRC=1.0000).
 
-| family | model | lead_mode | preprocess | test_auroc | test_average_precision | test_sensitivity | test_specificity | test_f1 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| classical | logistic_regression | wearable3_vdiff | raw_zscore | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
-| classical | logistic_regression | all12 | raw_zscore | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.6667 |
+| family | model | lead_mode | preprocess | test_auroc | test_average_precision | test_sensitivity | test_specificity | test_f1 | test_tp | test_fp | test_tn | test_fn |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| classical | logistic_regression | wearable3_vdiff | raw_zscore | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1 | 0 | 1 | 0 |
+| classical | logistic_regression | all12 | raw_zscore | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.6667 | 1 | 1 | 0 | 0 |
+
+## Test Confusion Matrices
+
+Rows use the validation-selected threshold and fold-10 test split.
+
+| experiment_id | family | model | lead_mode | preprocess | n | positives | tn | fp | fn | tp | sensitivity | specificity | precision | f1 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| E001 | classical | logistic_regression | wearable3_vdiff | raw_zscore | 2 | 1 | 1 | 0 | 0 | 1 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| E002 | classical | logistic_regression | all12 | raw_zscore | 2 | 1 | 0 | 1 | 0 | 1 | 1.0000 | 0.0000 | 0.5000 | 0.6667 |
+
+## Generated Artifacts
+
+- `reports/all_model_results.csv`: full sortable model result table.
+- `reports/all_model_results.md`: clean Markdown result table.
+- `reports/confusion_matrices.csv`: train/validation/test TP, FP, TN, FN table.
+- `reports/confusion_matrices.md`: Markdown confusion-matrix table.
+- `reports/confusion_matrices/*.png`: per-experiment test confusion-matrix images.
 
 ## Explanation
 

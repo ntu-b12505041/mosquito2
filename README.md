@@ -137,6 +137,22 @@ python scripts/run_deep_experiments.py \
   --models resnet1d inception1d spectrogram2d
 ```
 
+## SSH GPU Full Run
+
+For a remote SSH server with an NVIDIA GPU, use:
+
+```bash
+export PTBXL_DATA_DIR=/absolute/path/to/ptb-xl
+export DEVICE=cuda
+export EPOCHS=20
+export BATCH_SIZE=128
+bash RUN_FULL_GPU_EXPERIMENTS.sh
+```
+
+This runner uses full PTB-XL `records100/` and does not pass `--max-records`.
+It also regenerates `report.md`, `reports/all_model_results.*`, and `reports/confusion_matrices.*`.
+See `README_GPU_SSH.md` for tmux/nohup usage, CUDA PyTorch install notes, and the complete experiment matrix.
+
 ## Colab
 
 Use:
